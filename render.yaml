@@ -1,6 +1,6 @@
 databases:
   - name: optEmails
-    databaseName: optEmails
+    databaseName: optemail
     user: immi
 
 services:
