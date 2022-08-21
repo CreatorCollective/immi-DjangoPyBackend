@@ -170,5 +170,6 @@ def index(request):
             return pdfresponse
             
         else:
+            print (form.errors)
             return HttpResponse("Hello, World! We failed the form")
     return render(request, 'opt/index.html', {})
