@@ -6,8 +6,7 @@ from passporteye import read_mrz
 from PyPDF2 import PdfReader, PdfWriter
 from PyPDF2.generic import NameObject
 import pycountry
-import random
-import string
+from .models import Person 
 
 
 @csrf_exempt
@@ -46,6 +45,8 @@ def index(request):
             for page in reader.pages:
                 writer.add_page(page)
 
+            p = Person(first_name=first_name, last_name=last_name,email=form.cleaned_data['email'])
+            p.save()
             # Fill page 1
             writer.update_page_form_field_values(
                 writer.pages[0], {"Line1a_FamilyName[0]": last_name,
@@ -162,10 +163,7 @@ def index(request):
 
             pdfresponse = HttpResponse(content_type='application/pdf')
             writer.write(pdfresponse)
-            # # to avoid clashes, add random suffix for the output
-            new_file_name = first_name+'_filled_i765' + \
-                ''.join(random.choices(string.ascii_letters, k=2))
-            pdfresponse['Content-Disposition'] = 'inline;filename=%s.pdf' % new_file_name
+            pdfresponse['Content-Disposition'] = 'inline;filename=%s_filled_i765.pdf' % first_name
 
             return pdfresponse
             
