@@ -4,3 +4,5 @@
 4. Install all dependencies. "pip install -r requirements.txt"
 5. Run django server. "python manage.py runserver"
 6. Profit. $$$
+
+Note: To push to heroku, use "git push heroku master"
