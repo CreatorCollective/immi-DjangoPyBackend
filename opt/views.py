@@ -163,13 +163,16 @@ def index(request):
                 )
 
                 pdfresponse = HttpResponse(content_type='application/pdf')
+                pdfresponse["Access-Control-Allow-Origin"] = "*"
                 writer.write(pdfresponse)
                 pdfresponse['Content-Disposition'] = 'inline;filename=%s_filled_i765.pdf' % first_name
 
                 return pdfresponse
                 
             else:
+                print (form.errors)
                 return HttpResponseNotFound("Hello, World! We failed the form")
         return render(request, 'opt/index.html', {})
-    except:
-        return HttpResponseNotFound('<h1>Page not found</h1>')
+    except Exception as e:
+        print(e)
+        return HttpResponseNotFound('<h1>Threw an exception</h1>')
