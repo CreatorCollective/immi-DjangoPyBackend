@@ -171,8 +171,12 @@ def index(request):
                 
             else:
                 print (form.errors)
-                return HttpResponseNotFound("Hello, World! We failed the form")
+                response = HttpResponseNotFound("Hello, World! We failed the form")
+                response["Access-Control-Allow-Origin"] = "*"
+                return response
         return render(request, 'opt/index.html', {})
     except Exception as e:
         print(e)
-        return HttpResponseNotFound('<h1>Threw an exception</h1>')
+        response = HttpResponseNotFound('<h1>Threw an exception</h1>')
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
