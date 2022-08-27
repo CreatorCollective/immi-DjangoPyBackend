@@ -12,7 +12,7 @@ class NameForm(forms.Form):
     mailing_state = forms.CharField(label="Enter state: ")
     mailing_zip_code = forms.CharField(label="Enter zip code: ")
 
-    ssn = forms.CharField(label="Enter your SSN")
+    ssn = forms.CharField(label="Enter your SSN", required=False)
     i94_number = forms.CharField(label="Enter your I-94 number")
     date_of_last_arrival = forms.CharField(label="Enter date when you last arrived in US")
     place_of_last_arrival = forms.CharField(label="Enter place you last arrived from")

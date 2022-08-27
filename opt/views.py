@@ -69,7 +69,7 @@ def index(request):
                     "Pt2Line5_State[0]": form.cleaned_data['mailing_state'],
                     "Pt2Line5_ZipCode[0]": form.cleaned_data['mailing_zip_code'],
                     "Line17a_CountryOfBirth[0]": country_of_citizenship,
-                    "Line12b_SSN[0]": form.cleaned_data['ssn']}
+                    "Line12b_SSN[0]": form.cleaned_data['ssn'] if 'ssn' in form.cleaned_data else ""}
                 )
                 writer_annot_address_same = writer.pages[1]["/Annots"][2].get_object()
                 writer_annot_address_same.update(
@@ -114,14 +114,15 @@ def index(request):
                         NameObject("/AS"): NameObject('/N')
                     }
                 )
-                # Fill have received SSN as yes by default
-                have_ssn_writer_annot = writer.pages[1]["/Annots"][42].get_object()
-                have_ssn_writer_annot.update(
-                    {
-                        NameObject("/V"): NameObject('/1'),
-                        NameObject("/AS"): NameObject('/Y')
-                    }
-                )
+                if ('ssn' in form.cleaned_data):
+                    # Fill have received SSN as yes by default
+                    have_ssn_writer_annot = writer.pages[1]["/Annots"][42].get_object()
+                    have_ssn_writer_annot.update(
+                        {
+                            NameObject("/V"): NameObject('/1'),
+                            NameObject("/AS"): NameObject('/Y')
+                        }
+                    )
 
                 # Fill page 3
                 writer.update_page_form_field_values(
