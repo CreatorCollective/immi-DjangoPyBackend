@@ -18,5 +18,5 @@ class NameForm(forms.Form):
     place_of_last_arrival = forms.CharField(label="Enter place you last arrived from")
     sevis_number = forms.CharField(label="Enter your sevis number")
     phone_number = forms.CharField(label="Enter your phone number: ")
-    email = forms.CharField(label="Enter your e-mail address")
+    email = forms.CharField(label="Enter your e-mail address", required=False, null=True, blank=True)
     passport = forms.FileField()

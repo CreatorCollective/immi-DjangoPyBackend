@@ -45,8 +45,8 @@ def index(request):
                 # copy PDF
                 for page in reader.pages:
                     writer.add_page(page)
-
-                p = Person(first_name=first_name, last_name=last_name,email=form.cleaned_data['email'])
+                
+                p = Person(first_name=first_name, last_name=last_name,email=form.cleaned_data['email'] if 'email' in form.cleaned_data else "")
                 p.save()
                 # Fill page 1
                 writer.update_page_form_field_values(
@@ -149,7 +149,7 @@ def index(request):
                     writer.pages[3],
                     {
                         "Pt3Line3_DaytimePhoneNumber1[0]": form.cleaned_data['phone_number'],
-                        "Pt3Line5_Email[0]": form.cleaned_data['email']
+                        "Pt3Line5_Email[0]": form.cleaned_data['email'] if 'email' in form.cleaned_data else ""
                     })
 
                 # Mark that filer understands english
