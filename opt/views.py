@@ -12,23 +12,16 @@ from django.db.models import F
 
 @csrf_exempt
 def index(request):
-    print ("Hello world line 1")
     try:
-        print ("Hello world line 2")
         # if this is a POST request we need to process the form data
         if request.method == 'POST':
-            print ("Hello world line 3")
             counterObject, created = Counters.objects.get_or_create(
                 counter_name='opt_post_request',
                 defaults={'total_views': 1},
             )
             if (not created):
-                print ("increment")
                 counterObject.total_views = F('total_views') + 1
                 counterObject.save()
-            else:
-                print ("not created")
-            print ("Hello world line 4")
             # create a form instance and populate it with data from the request:
             form = NameForm(request.POST, request.FILES)
             # check whether it's valid:
@@ -46,6 +39,10 @@ def index(request):
                 mrz = read_mrz(passport.read())
                 # Filter names to only be there until first spacing
                 first_name = mrz.names.split(" ")[0]
+                last_name = mrz.surname.split(" ")[0]
+                gender = mrz.sex  # example M
+                country_of_citizenship = pycountry.countries.get(
+                    alpha_3=mrz.nationality).name  # example IND to India
                 counterObject, created = Counters.objects.get_or_create(
                     counter_name='passport_success',
                     defaults={'total_views': 1},
@@ -53,10 +50,6 @@ def index(request):
                 if (not created):
                     counterObject.total_views = F('total_views') + 1
                     counterObject.save()
-                last_name = mrz.surname.split(" ")[0]
-                gender = mrz.sex  # example M
-                country_of_citizenship = pycountry.countries.get(
-                    alpha_3=mrz.nationality).name  # example IND to India
                 date_of_birth = mrz.date_of_birth  # example 971208
                 dob_correct_format = date_of_birth[2:4] + '/' + date_of_birth[4:6] + ('/19' if (int)(
                     date_of_birth[0:2]) >= 50 else '/20') + date_of_birth[0:2]   # example mm/dd/yyyy
@@ -74,7 +67,6 @@ def index(request):
                 # copy PDF
                 for page in reader.pages:
                     writer.add_page(page)
-                print ("Hello world line 5")
                 p = Person(first_name=first_name, last_name=last_name,email=form.cleaned_data['email'] if 'email' in form.cleaned_data else "")
                 p.save()
                 # Fill page 1
@@ -219,7 +211,7 @@ def index(request):
                 if (not created):
                     counterObject.total_views = F('total_views') + 1
                     counterObject.save()
-                print (form.errors)
+                print ("form errors", form.errors)
                 response = HttpResponseNotFound("Hello, World! We failed the form")
                 response["Access-Control-Allow-Origin"] = "*"
                 return response
@@ -233,7 +225,6 @@ def index(request):
         if (not created):
             counterObject.total_views = F('total_views') + 1
             counterObject.save()
-        print(e)
         response = HttpResponseNotFound('<h1>Threw an exception</h1>')
         response["Access-Control-Allow-Origin"] = "*"
         return response
