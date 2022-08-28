@@ -23,7 +23,10 @@ def index(request):
                 defaults={'total_views': 1},
             )
             if (not created):
+                print ("increment")
                 counterObject.update(total_views=F('total_views') + 1)
+            else:
+                print ("not created")
             print ("Hello world line 4")
             # create a form instance and populate it with data from the request:
             form = NameForm(request.POST, request.FILES)
