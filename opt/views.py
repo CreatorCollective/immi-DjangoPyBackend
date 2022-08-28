@@ -209,6 +209,7 @@ def index(request):
                 return response
         return render(request, 'opt/index.html', {})
     except Exception as e:
+        print ("exception thrown", e)
         counterObject, created = Counters.objects.get_or_create(
             counter_name='exception_thrown',
             defaults={'total_views': 1},
