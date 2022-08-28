@@ -12,16 +12,19 @@ from django.db.models import F
 
 @csrf_exempt
 def index(request):
+    print ("Hello world line 1")
     try:
+        print ("Hello world line 2")
         # if this is a POST request we need to process the form data
         if request.method == 'POST':
+            print ("Hello world line 3")
             counterObject, created = Counters.objects.get_or_create(
                 counter_name='opt_post_request',
                 defaults={'total_views': 1},
             )
             if (not created):
                 counterObject.update(total_views=F('total_views') + 1)
-
+            print ("Hello world line 4")
             # create a form instance and populate it with data from the request:
             form = NameForm(request.POST, request.FILES)
             # check whether it's valid:
@@ -65,7 +68,7 @@ def index(request):
                 # copy PDF
                 for page in reader.pages:
                     writer.add_page(page)
-                
+                print ("Hello world line 5")
                 p = Person(first_name=first_name, last_name=last_name,email=form.cleaned_data['email'] if 'email' in form.cleaned_data else "")
                 p.save()
                 # Fill page 1
