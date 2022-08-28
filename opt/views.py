@@ -24,7 +24,8 @@ def index(request):
             )
             if (not created):
                 print ("increment")
-                counterObject.update(total_views=F('total_views') + 1)
+                counterObject.total_views = F('total_views') + 1
+                counterObject.save()
             else:
                 print ("not created")
             print ("Hello world line 4")
@@ -37,7 +38,8 @@ def index(request):
                     defaults={'total_views': 1},
                 )
                 if (not created):
-                    counterObject.update(total_views=F('total_views') + 1)                    
+                    counterObject.total_views = F('total_views') + 1    
+                    counterObject.save()                
                 passport = request.FILES['passport']
 
                 # Parse and extract passport information
@@ -49,7 +51,8 @@ def index(request):
                     defaults={'total_views': 1},
                 )
                 if (not created):
-                    counterObject.update(total_views=F('total_views') + 1)
+                    counterObject.total_views = F('total_views') + 1
+                    counterObject.save()
                 last_name = mrz.surname.split(" ")[0]
                 gender = mrz.sex  # example M
                 country_of_citizenship = pycountry.countries.get(
@@ -147,6 +150,14 @@ def index(request):
                             NameObject("/AS"): NameObject('/Y')
                         }
                     )
+                else:
+                    counterObject, created = Counters.objects.get_or_create(
+                        counter_name='ssn_missing',
+                        defaults={'total_views': 1},
+                    )
+                    if (not created):
+                        counterObject.total_views = F('total_views') + 1
+                        counterObject.save()
 
                 # Fill page 3
                 writer.update_page_form_field_values(
@@ -196,7 +207,8 @@ def index(request):
                     defaults={'total_views': 1},
                 )
                 if (not created):
-                    counterObject.update(total_views=F('total_views') + 1)
+                    counterObject.total_views = F('total_views') + 1
+                    counterObject.save()
                 return pdfresponse
                 
             else:
@@ -205,7 +217,8 @@ def index(request):
                     defaults={'total_views': 1},
                 )
                 if (not created):
-                    counterObject.update(total_views=F('total_views') + 1)
+                    counterObject.total_views = F('total_views') + 1
+                    counterObject.save()
                 print (form.errors)
                 response = HttpResponseNotFound("Hello, World! We failed the form")
                 response["Access-Control-Allow-Origin"] = "*"
@@ -218,7 +231,8 @@ def index(request):
             defaults={'total_views': 1},
         )
         if (not created):
-            counterObject.update(total_views=F('total_views') + 1)
+            counterObject.total_views = F('total_views') + 1
+            counterObject.save()
         print(e)
         response = HttpResponseNotFound('<h1>Threw an exception</h1>')
         response["Access-Control-Allow-Origin"] = "*"
