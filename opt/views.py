@@ -189,7 +189,11 @@ def index(request):
                         NameObject("/AS"): NameObject('/A')
                     }
                 )
-
+                instructionsReader = PdfReader("OPT_Form_Instructions.pdf")
+                currPageIndex = 0
+                for page in instructionsReader.pages:
+                    writer.insert_page(page, currPageIndex)
+                    currPageIndex += 1
                 pdfresponse = HttpResponse(content_type='application/pdf')
                 pdfresponse["Access-Control-Allow-Origin"] = "*"
                 writer.write(pdfresponse)

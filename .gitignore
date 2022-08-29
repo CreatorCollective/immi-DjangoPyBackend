@@ -2,3 +2,4 @@
 mydatabase
 env/
 */migrations/*
+db.sqlite3
