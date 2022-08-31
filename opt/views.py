@@ -67,8 +67,6 @@ def index(request):
                 # copy PDF
                 for page in reader.pages:
                     writer.add_page(page)
-                p = Person(first_name=first_name, last_name=last_name,email=form.cleaned_data['email'] if 'email' in form.cleaned_data else "")
-                p.save()
                 # Fill page 1
                 writer.update_page_form_field_values(
                     writer.pages[0], {"Line1a_FamilyName[0]": last_name,
