@@ -6,7 +6,7 @@ from passporteye import read_mrz
 from PyPDF2 import PdfReader, PdfWriter
 from PyPDF2.generic import NameObject
 import pycountry
-from .models import Person, Counters
+from .models import Counters
 from django.db.models import F
 
 
